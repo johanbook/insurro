@@ -9,11 +9,9 @@ const io = createIO(server);
 
 const sockets = {};
 
-const forEachUser = (fn) =>
-  Object.values(sockets).forEach((socket) => fn(socket));
 const sendUserLists = () => {
   const users = [...Object.keys(sockets)];
-  forEachUser((socket) => socket.emit("user-list", users));
+  io.sockets.emit("user-list", users);
 };
 
 io.on("connection", (socket) => {
@@ -21,9 +19,13 @@ io.on("connection", (socket) => {
   sockets[id] = socket;
   sendUserLists();
 
-  socket.on("message", (message) => {
-    const timestamp = moment().format("h:mm:ss");
-    forEachUser((socket) => socket.send({ user: id, message, timestamp }));
+  socket.on("chat", ({ handle, message }) => {
+    const timestamp = moment().format("h:mm");
+    io.sockets.emit("chat", { user: handle, message, timestamp });
+  });
+
+  socket.on("typing", (args) => {
+    socket.broadcast.emit("typing", args);
   });
 
   socket.on("disconnect", () => {

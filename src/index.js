@@ -1,12 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import App from "./App";
+import Nav from "./Nav";
+import Router from "./Router";
 import Theme from "./Theme";
 
-
 ReactDOM.render(
-  <Theme><App/></Theme>,
+  <Theme>
+    <Nav>
+      <Router />
+    </Nav>
+  </Theme>,
   document.getElementById("root")
 );
-

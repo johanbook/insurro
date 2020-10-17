@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import io from "socket.io-client";
 
-import Collapse from "@material-ui/core/Collapse";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-
+import Dialog from "./Dialog";
 import Messages from "./Messages";
 import MessageField from "./MessageField";
-import Nav from "./Nav";
 import Users from "./Users";
+
+import * as cookies from "./utils/cookies";
 
 const socket = io();
 
-export default function App() {
+function App({ handle }) {
   const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState([]);
   const addMessage = (message) => setMessages([...messages, message]);
@@ -21,23 +19,31 @@ export default function App() {
     setUsers(data);
   });
 
-  socket.on("message", (data) => {
+  socket.on("chat", (data) => {
     addMessage(data);
   });
 
-  const handleSendMessage = (message) => socket.send(message);
+  const handleSendMessage = (message) =>
+    socket.emit("chat", { handle, message });
+
+  const handleTyping = () => socket.emit("typing", { handle });
 
   return (
-    <Nav>
-      <div style={{ display: "flex" }}>
-        <Collapse in={false}>
-          <Users users={users} />
-        </Collapse>
-        <div style={{ flexGrow: 1 }}>
-          <Messages messages={messages} />
-          <MessageField onSendMessage={handleSendMessage} />
-        </div>
-      </div>
-    </Nav>
+    <React.Fragment>
+      <Messages messages={messages} />
+      <MessageField onSendMessage={handleSendMessage} onTyping={handleTyping} />
+    </React.Fragment>
   );
+}
+
+export default function () {
+  const [handle, setHandle] = useState(cookies.get("handle"));
+  const handleSubmit = (handle) => {
+    cookies.set("handle", handle, 20);
+    setHandle(handle);
+  };
+  if (!handle) {
+    return <Dialog onSubmit={handleSubmit} />;
+  }
+  return <App handle={handle} />;
 }
