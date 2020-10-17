@@ -22,6 +22,7 @@ export default function MessageField({ onSendMessage, onTyping }) {
   return (
     <form onSubmit={handleSubmit}>
       <TextField
+        autoFocus
         fullWidth
         InputProps={{
           startAdornment: (

@@ -11,6 +11,7 @@ import * as cookies from "./utils/cookies";
 const socket = io();
 
 function App({ handle }) {
+  const [typer, setTyper] = useState();
   const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState([]);
   const addMessage = (message) => setMessages([...messages, message]);
@@ -23,6 +24,10 @@ function App({ handle }) {
     addMessage(data);
   });
 
+  socket.on("typing", ({ handle }) => {
+    setTyper(handle);
+  });
+
   const handleSendMessage = (message) =>
     socket.emit("chat", { handle, message });
 
@@ -30,7 +35,7 @@ function App({ handle }) {
 
   return (
     <React.Fragment>
-      <Messages messages={messages} />
+      <Messages messages={messages} typer={typer} />
       <MessageField onSendMessage={handleSendMessage} onTyping={handleTyping} />
     </React.Fragment>
   );

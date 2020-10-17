@@ -29,7 +29,7 @@ function Message({ message, timestamp, user }) {
   );
 }
 
-export default function Messages({ messages }) {
+export default function Messages({ messages, typer }) {
   const classes = useStyles();
   return (
     <div className={classes.container}>
@@ -43,6 +43,9 @@ export default function Messages({ messages }) {
         <Typography color="textSecondary">
           No messages sent yet. Be the first to send!
         </Typography>
+      )}
+      {typer && (
+        <Typography color="textSecondary">{typer} is typing...</Typography>
       )}
     </div>
   );
