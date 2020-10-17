@@ -1,6 +1,7 @@
 const express = require("express");
 const createServer = require("http").createServer;
 const createIO = require("socket.io");
+const moment = require("moment");
 
 const app = express();
 const server = createServer(app);
@@ -8,21 +9,27 @@ const io = createIO(server);
 
 const sockets = {};
 
+const forEachUser = (fn) =>
+  Object.values(sockets).forEach((socket) => fn(socket));
+const sendUserLists = () => {
+  const users = [...Object.keys(sockets)];
+  forEachUser((socket) => socket.emit("user-list", users));
+};
+
 io.on("connection", (socket) => {
   const id = socket.id;
   sockets[id] = socket;
+  sendUserLists();
   console.log(`${id} connected`);
 
-  socket.emit("user-list", [...Object.keys(sockets)]);
-
   socket.on("message", (message) => {
-    Object.values(sockets).forEach((socket) =>
-      socket.send({ user: id, message })
-    );
+    const timestamp = moment().format("h:mm:ss");
+    forEachUser((socket) => socket.send({ user: id, message, timestamp }));
   });
 
   socket.on("disconnect", () => {
     socket[id] = null;
+    sendUserLists();
     console.log(`${id} disconnected`);
   });
 });
