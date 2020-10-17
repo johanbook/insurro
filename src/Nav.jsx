@@ -110,7 +110,7 @@ export default function PersistentDrawerLeft({ children }) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Vodechat
+            Insurro
           </Typography>
         </Toolbar>
       </AppBar>

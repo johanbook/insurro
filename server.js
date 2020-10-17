@@ -20,7 +20,6 @@ io.on("connection", (socket) => {
   const id = socket.id;
   sockets[id] = socket;
   sendUserLists();
-  console.log(`${id} connected`);
 
   socket.on("message", (message) => {
     const timestamp = moment().format("h:mm:ss");
@@ -30,7 +29,6 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     socket[id] = null;
     sendUserLists();
-    console.log(`${id} disconnected`);
   });
 });
 

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
+import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+
+import SendIcon from "@material-ui/icons/Send";
 
 export default function MessageField({ onSendMessage }) {
   const [value, setValue] = useState("");
@@ -14,6 +16,13 @@ export default function MessageField({ onSendMessage }) {
     <form onSubmit={handleSubmit}>
       <TextField
         fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SendIcon color="primary" />
+            </InputAdornment>
+          ),
+        }}
         onChange={(e) => setValue(e.target.value)}
         placeholder="Message"
         value={value}
