@@ -5,7 +5,9 @@
   "scripts": {
     "build": "react-scripts build",
     "dev": "react-scripts start",
-    "serve": "node server.js"
+    "serve": "node server.js",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -16,11 +18,20 @@
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.3",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "@storybook/addon-actions": "^6.0.26",
+    "@storybook/addon-essentials": "^6.0.26",
+    "@storybook/addon-links": "^6.0.26",
+    "@storybook/node-logger": "^6.0.26",
+    "@storybook/preset-create-react-app": "^3.1.4",
+    "@storybook/react": "^6.0.26",
+    "babel-loader": "^8.1.0",
     "prettier": "^2.1.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "react-is": "^16.13.1",
     "react-redux": "^7.2.1",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",

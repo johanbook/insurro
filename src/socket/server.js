@@ -25,7 +25,7 @@ module.exports = (io) => {
       const timestamp = moment().format();
       io.sockets.emit(EVENTS.MESSAGE, {
         user: handle,
-        hash,
+        hash: timestamp,
         message,
         timestamp,
       });
