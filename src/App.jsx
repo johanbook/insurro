@@ -1,37 +1,24 @@
-import React, { useState } from "react";
-import io from "socket.io-client";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-import Dialog from "./Dialog";
-import Messages from "./Messages";
-import MessageField from "./MessageField";
-import Users from "./Users";
+import Dialog from "./components/Dialog";
+import Messages from "./components/Messages";
+import MessageField from "./components/MessageField";
+import Users from "./components/Users";
+
+import { messageOperations, messageSelectors } from "./ducks/messages";
+import { userOperations, userSelectors } from "./ducks/user";
 
 import * as cookies from "./utils/cookies";
 
-const socket = io();
-
 function App({ handle }) {
+  const messages = useSelector(messageSelectors.messages);
+
   const [typer, setTyper] = useState();
   const [users, setUsers] = useState([]);
-  const [messages, setMessages] = useState([]);
-  const addMessage = (message) => setMessages([...messages, message]);
 
-  socket.on("user-list", (data) => {
-    setUsers(data);
-  });
-
-  socket.on("chat", (data) => {
-    addMessage(data);
-  });
-
-  socket.on("typing", ({ handle }) => {
-    setTyper(handle);
-  });
-
-  const handleSendMessage = (message) =>
-    socket.emit("chat", { handle, message });
-
-  const handleTyping = () => socket.emit("typing", { handle });
+  const handleSendMessage = (args) => messageOperations.sendMessage(args);
+  const handleTyping = (args) => args;
 
   return (
     <React.Fragment>
@@ -42,11 +29,15 @@ function App({ handle }) {
 }
 
 export default function () {
+  const handleR = useSelector(userSelectors.handle);
   const [handle, setHandle] = useState(cookies.get("handle"));
   const handleSubmit = (handle) => {
     cookies.set("handle", handle, 20);
     setHandle(handle);
   };
+  useEffect(() => {
+    userOperations.identify({ handle });
+  }, [handle]);
   if (!handle) {
     return <Dialog onSubmit={handleSubmit} />;
   }

@@ -3,36 +3,12 @@ const createServer = require("http").createServer;
 const createIO = require("socket.io");
 const moment = require("moment");
 
+const setupIO = require("./src/socket/server");
+
 const app = express();
 const server = createServer(app);
 const io = createIO(server);
-
-const sockets = {};
-
-const sendUserLists = () => {
-  const users = [...Object.keys(sockets)];
-  io.sockets.emit("user-list", users);
-};
-
-io.on("connection", (socket) => {
-  const id = socket.id;
-  sockets[id] = socket;
-  sendUserLists();
-
-  socket.on("chat", ({ handle, message }) => {
-    const timestamp = moment().format("h:mm");
-    io.sockets.emit("chat", { user: handle, message, timestamp });
-  });
-
-  socket.on("typing", (args) => {
-    socket.broadcast.emit("typing", args);
-  });
-
-  socket.on("disconnect", () => {
-    socket[id] = null;
-    sendUserLists();
-  });
-});
+setupIO(io);
 
 /** Static files. Should be in this order */
 app.use(express.static("build"));
