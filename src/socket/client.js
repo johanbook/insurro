@@ -7,15 +7,17 @@ export default class Connection {
     this.socket = io();
   }
 
-  init({handle}) {
+  init({ handle }) {
     this.handle = handle;
-    this.socket.emit(EVENTS.IDENTIFY, { handle });
 
     Object.values(EVENTS).forEach((EVENT) =>
       this.socket.on(EVENT, (payload) =>
         store.dispatch({ type: EVENT, payload })
       )
     );
+
+    this.socket.emit(EVENTS.IDENTIFY, { handle });
+    this.socket.emit(EVENTS.INIT_SYNC);
   }
 
   indicateTyping(isTyping) {

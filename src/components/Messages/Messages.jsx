@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Message({ hash, message, shown, setShown, timestamp, user }) {
+function Message({ hash, message, shown, sessionId, setShown, timestamp, user }) {
   const selected = shown === hash;
   const handleClick = () => {
     setShown(selected ? null : hash);
@@ -35,7 +35,7 @@ function Message({ hash, message, shown, setShown, timestamp, user }) {
 
       <Collapse in={selected}>
         <Typography color="textSecondary" variant="body2">
-          Time: {moment(timestamp).format("H:mm")} Hash: {hash}
+          Time: {moment(timestamp).format("H:mm")} Hash: {hash}{" "}Session ID: {sessionId}
         </Typography>
       </Collapse>
     </React.Fragment>

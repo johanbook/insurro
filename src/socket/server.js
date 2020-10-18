@@ -1,18 +1,15 @@
-const crypto = require("crypto");
 const moment = require("moment");
+const crypto = require("../utils/crypto");
 const EVENTS = require("./events");
 
 const sockets = {};
-const hasher = crypto.createHash("sha256");
-const getHash = (string) => null; //hasher.update(string).digest("hex");
 
 module.exports = (io) => {
   io.on("connection", (socket) => {
     const id = socket.id;
-    sockets[id] = { socket };
+    sockets[id] = {};
 
     socket.on(EVENTS.IDENTIFY, ({ handle }) => {
-      console.log("Identiyfing", handle);
       sockets[id].handle = handle;
       socket.broadcast.emit(EVENTS.USER_CONNECT, { handle });
     });
@@ -21,14 +18,19 @@ module.exports = (io) => {
       const handle = sockets[id].handle;
       if (!handle) return;
 
-      const hash = getHash(message);
+      const hash = crypto.hash(handle + message);
       const timestamp = moment().format();
       io.sockets.emit(EVENTS.MESSAGE, {
         user: handle,
-        hash: timestamp,
+        hash,
         message,
+        sessionId: id,
         timestamp,
       });
+    });
+
+    socket.on(EVENTS.INIT_SYNC, () => {
+      socket.broadcast.emit(EVENTS.SYNC_MESSAGES);
     });
 
     socket.on(EVENTS.USER_IS_TYPING, (args) => {
@@ -36,9 +38,9 @@ module.exports = (io) => {
     });
 
     socket.on("disconnect", () => {
-      socket[id] = null;
       const handle = sockets[id].handle;
       socket.broadcast.emit(EVENTS.USER_DISCONNECT, { handle });
+      socket[id] = null;
     });
   });
 };
