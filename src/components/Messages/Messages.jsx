@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import moment from "moment";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     marginBottom: theme.spacing(1),
     height: "80vh",
-    overflow: "auto",
+    overflowY: "auto",
   },
   message: {
     flexGrow: 1,
@@ -22,7 +22,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Message({ hash, message, shown, sessionId, setShown, timestamp, user }) {
+function Message({
+  hash,
+  message,
+  shown,
+  sessionId,
+  setShown,
+  timestamp,
+  user,
+}) {
   const selected = shown === hash;
   const handleClick = () => {
     setShown(selected ? null : hash);
@@ -35,7 +43,8 @@ function Message({ hash, message, shown, sessionId, setShown, timestamp, user })
 
       <Collapse in={selected}>
         <Typography color="textSecondary" variant="body2">
-          Time: {moment(timestamp).format("H:mm")} Hash: {hash}{" "}Session ID: {sessionId}
+          Time: {moment(timestamp).format("H:mm")} Hash: {hash} Session ID:{" "}
+          {sessionId}
         </Typography>
       </Collapse>
     </React.Fragment>
@@ -53,8 +62,15 @@ function Message({ hash, message, shown, sessionId, setShown, timestamp, user })
 }
 
 export default function Messages({ messages, typer }) {
+  const bottom = useRef();
   const classes = useStyles();
   const [expanded, setExpanded] = useState();
+
+  const scrollToBottom = (behavior = "auto") =>
+    bottom.current.scrollIntoView({ behavior });
+
+  useEffect(() => scrollToBottom(), []);
+
   return (
     <div className={classes.container}>
       <Typography color="primary" gutterBottom variant="h5">
@@ -72,6 +88,7 @@ export default function Messages({ messages, typer }) {
         {typer && (
           <Typography color="textSecondary">{typer} is typing...</Typography>
         )}
+        <div ref={bottom} />
       </List>
     </div>
   );
