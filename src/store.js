@@ -4,7 +4,13 @@ import storage from "redux-persist/lib/storage";
 
 import rootReducer from "./ducks";
 
-const persistedReducer = persistReducer({ storage }, rootReducer);
+const persistedReducer = persistReducer(
+  {
+    key: "root",
+    storage,
+  },
+  rootReducer
+);
 const store = createStore(
   persistedReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
