@@ -9,9 +9,15 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Canvas from "@johanbook/react-canvas";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRocket } from "@fortawesome/free-solid-svg-icons";
+
 import { userOperations, userSelectors } from "../../ducks/user";
 
 const useStyles = makeStyles((theme) => ({
+  button: {
+    marginTop: theme.spacing(1),
+  },
   container: {
     height: "85vh",
     padding: theme.spacing(32),
@@ -96,8 +102,10 @@ export function Home({ onLaunch, username }) {
             )}
 
             <Button
+              className={classes.button}
               color="primary"
               disabled={!username && !value}
+              endIcon={<FontAwesomeIcon icon={faRocket} />}
               onClick={() => onLaunch(value)}
               variant="outlined"
             >
