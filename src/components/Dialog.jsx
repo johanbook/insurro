@@ -9,33 +9,33 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 export default function FormDialog({ onSubmit }) {
-  const [handle, setHandle] = useState("");
+  const [username, setHandle] = useState("");
 
-  const handleSubmit = (e) => {
+  const usernameSubmit = (e) => {
     e.preventDefault();
-    onSubmit(handle);
+    onSubmit(username);
   };
 
   return (
     <Dialog open={true} onClose={() => {}} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">Choose handle</DialogTitle>
+      <DialogTitle id="form-dialog-title">Choose username</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          This handle will be displayed next messages you send
+          This username will be displayed next messages you send
         </DialogContentText>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={usernameSubmit}>
           <TextField
             autoFocus
             margin="dense"
             label="Handle"
             fullWidth
-            value={handle}
+            value={username}
             onChange={(e) => setHandle(e.target.value)}
           />
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleSubmit} color="primary">
+        <Button onClick={usernameSubmit} color="primary">
           Enter
         </Button>
       </DialogActions>

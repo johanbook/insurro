@@ -8,19 +8,19 @@ import SendIcon from "@material-ui/icons/Send";
 export default function MessageField({ onSendMessage, onTyping }) {
   const [value, setValue] = useState("");
   const [typing, setTyping] = useState(false);
-  const handleKeydown = () => {
+  const usernameKeydown = () => {
     if(typing) return;
     onTyping();
     setTyping(true);
   };
-  const handleSubmit = (e) => {
+  const usernameSubmit = (e) => {
     e.preventDefault();
     onSendMessage(value);
     setValue("");
     setTyping(false);
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={usernameSubmit}>
       <TextField
         autoFocus
         fullWidth
@@ -32,7 +32,7 @@ export default function MessageField({ onSendMessage, onTyping }) {
           ),
         }}
         onChange={(e) => setValue(e.target.value)}
-        onKeyDown={handleKeydown}
+        onKeyDown={usernameKeydown}
         placeholder="Message"
         value={value}
         variant="outlined"

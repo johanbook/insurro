@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -34,7 +35,7 @@ export function createItems(number) {
   return items;
 }
 
-const handleUpdateItem = (item, t) => {
+const usernameUpdateItem = (item, t) => {
   const time = 4 * t;
   const diff1 = 10 * (item.x + item.y);
   const diff2 = 10 * (item.x - item.y);
@@ -52,7 +53,7 @@ function CanvasContainer({ children }) {
   return (
     <Canvas
       items={items}
-      onUpdateItem={handleUpdateItem}
+      onUpdateItem={usernameUpdateItem}
       renderOptions={{
         defaultColor: theme.palette.primary.main,
         fps: 10,
@@ -96,8 +97,8 @@ export function Home({ onLaunch, username }) {
 
             <Button
               color="primary"
-              disabled={!value}
-              onClick={onLaunch}
+              disabled={!username && !value}
+              onClick={() => onLaunch(value)}
               variant="outlined"
             >
               Launch
@@ -110,6 +111,14 @@ export function Home({ onLaunch, username }) {
 }
 
 export default function HomeContainer() {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const username = useSelector(userSelectors.username);
-  return <Home username={username} />;
+
+  const handleLaunch = (value) => {
+    dispatch(userOperations.identify({ username: username || value }));
+    history.push("/public");
+  };
+
+  return <Home onLaunch={handleLaunch} username={username} />;
 }

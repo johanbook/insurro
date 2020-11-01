@@ -9,19 +9,19 @@ module.exports = (io) => {
     const id = socket.id;
     sockets[id] = {};
 
-    socket.on(EVENTS.IDENTIFY, ({ handle }) => {
-      sockets[id].handle = handle;
-      socket.broadcast.emit(EVENTS.USER_CONNECT, { handle });
+    socket.on(EVENTS.IDENTIFY, ({ username }) => {
+      sockets[id].username = username;
+      socket.broadcast.emit(EVENTS.USER_CONNECT, { username });
     });
 
     socket.on(EVENTS.MESSAGE, ({ message }) => {
-      const handle = sockets[id].handle;
-      if (!handle) return;
+      const username = sockets[id].username;
+      if (!username) return;
 
-      const hash = crypto.hash(handle + message);
+      const hash = crypto.hash(username + message);
       const timestamp = moment().format();
       io.sockets.emit(EVENTS.MESSAGE, {
-        user: handle,
+        user: username,
         hash,
         message,
         sessionId: id,
@@ -38,8 +38,8 @@ module.exports = (io) => {
     });
 
     socket.on("disconnect", () => {
-      const handle = sockets[id].handle;
-      socket.broadcast.emit(EVENTS.USER_DISCONNECT, { handle });
+      const username = sockets[id].username;
+      socket.broadcast.emit(EVENTS.USER_DISCONNECT, { username });
       socket[id] = null;
     });
   });

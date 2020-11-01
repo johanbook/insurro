@@ -7,8 +7,8 @@ export default class Connection {
     this.socket = io();
   }
 
-  init({ handle }) {
-    this.handle = handle;
+  init({ username }) {
+    this.username = username;
 
     Object.values(EVENTS).forEach((EVENT) =>
       this.socket.on(EVENT, (payload) =>
@@ -16,7 +16,7 @@ export default class Connection {
       )
     );
 
-    this.socket.emit(EVENTS.IDENTIFY, { handle });
+    this.socket.emit(EVENTS.IDENTIFY, { username });
     this.socket.emit(EVENTS.INIT_SYNC);
   }
 

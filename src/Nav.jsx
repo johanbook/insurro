@@ -18,6 +18,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 
+import { Link } from "react-router-dom";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
+  },
+  brandLink: {
+    textDecoration: "none"
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -82,11 +87,11 @@ export default function PersistentDrawerLeft({ children }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
+  const usernameDrawerOpen = () => {
     setOpen(true);
   };
 
-  const handleDrawerClose = () => {
+  const usernameDrawerClose = () => {
     setOpen(false);
   };
 
@@ -105,14 +110,21 @@ export default function PersistentDrawerLeft({ children }) {
             <IconButton
               color="inherit"
               aria-label="open drawer"
-              onClick={handleDrawerOpen}
+              onClick={usernameDrawerOpen}
               edge="start"
               className={clsx(classes.menuButton, open && classes.hide)}
             >
               <MenuIcon />
             </IconButton>
           )}
-          <Typography color="primary" variant="h6" noWrap>
+          <Typography
+            className={classes.brandLink}
+            color="primary"
+            component={Link}
+            variant="h6"
+            to="/"
+            noWrap
+          >
             Insurro
           </Typography>
         </Toolbar>
@@ -127,7 +139,7 @@ export default function PersistentDrawerLeft({ children }) {
         }}
       >
         <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={usernameDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
             ) : (

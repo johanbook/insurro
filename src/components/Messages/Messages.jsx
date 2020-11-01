@@ -32,7 +32,7 @@ function Message({
   user,
 }) {
   const selected = shown === hash;
-  const handleClick = () => {
+  const usernameClick = () => {
     setShown(selected ? null : hash);
   };
   const secondary = (
@@ -51,7 +51,7 @@ function Message({
   );
   return (
     <React.Fragment>
-      <ListItem button divider onClick={handleClick} selected={selected}>
+      <ListItem button divider onClick={usernameClick} selected={selected}>
         <ListItemIcon>
           <Avatar>{user[0]}</Avatar>
         </ListItemIcon>

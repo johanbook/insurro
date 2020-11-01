@@ -9,37 +9,27 @@ import Users from "./components/Users";
 import { messageOperations, messageSelectors } from "./ducks/messages";
 import { userOperations, userSelectors } from "./ducks/user";
 
-import * as cookies from "./utils/cookies";
-
-function App({ handle }) {
+function App({ username }) {
   const messages = useSelector(messageSelectors.messages);
 
   const [typer, setTyper] = useState();
   const [users, setUsers] = useState([]);
 
-  const handleSendMessage = (args) => messageOperations.sendMessage(args);
-  const handleTyping = (args) => args;
+  const usernameSendMessage = (args) => messageOperations.sendMessage(args);
+  const usernameTyping = (args) => args;
 
   return (
     <React.Fragment>
       <Messages messages={messages} typer={typer} />
-      <MessageField onSendMessage={handleSendMessage} onTyping={handleTyping} />
+      <MessageField
+        onSendMessage={usernameSendMessage}
+        onTyping={usernameTyping}
+      />
     </React.Fragment>
   );
 }
 
 export default function () {
-  const handleR = useSelector(userSelectors.handle);
-  const [handle, setHandle] = useState(cookies.get("handle"));
-  const handleSubmit = (handle) => {
-    cookies.set("handle", handle, 20);
-    setHandle(handle);
-  };
-  useEffect(() => {
-    userOperations.identify({ handle });
-  }, [handle]);
-  if (!handle) {
-    return <Dialog onSubmit={handleSubmit} />;
-  }
-  return <App handle={handle} />;
+  const username = useSelector(userSelectors.username);
+  return <App username={username} />;
 }
