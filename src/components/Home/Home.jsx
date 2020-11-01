@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     height: "85vh",
-    padding: theme.spacing(32),
+    paddingTop: theme.spacing(16),
   },
   content: {
     backgroundColor: theme.palette.background.paper,
@@ -75,7 +75,7 @@ export function Home({ onLaunch, username }) {
   const [value, setValue] = useState("");
   return (
     <CanvasContainer>
-      <Container className={classes.container} fixed>
+      <Container className={classes.container} fixed maxWidth="md">
         <div className={classes.content}>
           <center>
             <Typography gutterBottom variant="h4">
@@ -86,31 +86,34 @@ export function Home({ onLaunch, username }) {
               that.
             </Typography>
 
-            {!username && (
-              <div className={classes.textFieldSection}>
-                <Typography color="textSecondary" gutterBottom>
-                  To start chatting, use a username and click Launch!
-                </Typography>
+            <form onSubmit={(e) => onLaunch(e, value)}>
+              {!username && (
+                <div className={classes.textFieldSection}>
+                  <Typography color="textSecondary" gutterBottom>
+                    To start chatting, use a username and click Launch!
+                  </Typography>
 
-                <TextField
-                  label="Username"
-                  onChange={(e) => setValue(e.target.value)}
-                  value={value}
-                  variant="outlined"
-                />
-              </div>
-            )}
+                  <TextField
+                    label="Username"
+                    onChange={(e) => setValue(e.target.value)}
+                    value={value}
+                    variant="outlined"
+                  />
+                </div>
+              )}
 
-            <Button
-              className={classes.button}
-              color="primary"
-              disabled={!username && !value}
-              endIcon={<FontAwesomeIcon icon={faRocket} />}
-              onClick={() => onLaunch(value)}
-              variant="outlined"
-            >
-              Launch
-            </Button>
+              <Button
+                className={classes.button}
+                color="primary"
+                disabled={!username && !value}
+                endIcon={<FontAwesomeIcon icon={faRocket} />}
+                onClick={() => {}}
+                type="submit"
+                variant="outlined"
+              >
+                Launch
+              </Button>
+            </form>
           </center>
         </div>
       </Container>
@@ -123,7 +126,8 @@ export default function HomeContainer() {
   const history = useHistory();
   const username = useSelector(userSelectors.username);
 
-  const handleLaunch = (value) => {
+  const handleLaunch = (e, value) => {
+    e.preventDefault();
     dispatch(userOperations.identify({ username: username || value }));
     history.push("/public");
   };
