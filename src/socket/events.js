@@ -1,5 +1,6 @@
 module.exports = {
   IDENTIFY: "identify",
+  LIST_ACTIVE_USERS: "users/list",
   MESSAGE: "message",
   INIT_SYNC: "sync/init",
   SYNC_MESSAGES: "sync/messages",

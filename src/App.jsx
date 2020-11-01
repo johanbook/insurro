@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
+import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 
@@ -12,7 +13,15 @@ import { messageOperations, messageSelectors } from "./ducks/messages";
 import { userSelectors } from "./ducks/user";
 import { usersSelectors } from "./ducks/users";
 
-function App({ username }) {
+const useStyles = makeStyles((theme) => ({
+  userList: {
+    borderLeft: `1px solid ${theme.palette.divider}`,
+    paddingLeft: theme.spacing(1),
+  },
+}));
+
+function App() {
+  const classes = useStyles();
   const messages = useSelector(messageSelectors.messages);
   const users = useSelector(usersSelectors.users);
   const typer = null;
@@ -22,7 +31,7 @@ function App({ username }) {
 
   return (
     <React.Fragment>
-      <Grid container>
+      <Grid container spacing={4}>
         <Grid item xs={12} sm={10} md={10}>
           <Messages messages={messages} typer={typer} />
           <MessageField
@@ -31,8 +40,8 @@ function App({ username }) {
           />
         </Grid>
         <Hidden xsDown sm={2} md={2}>
-          <Grid item xs>
-            <ActiveUsers users={[username, ...users]} />
+          <Grid className={classes.userList} item xs>
+            <ActiveUsers users={users} />
           </Grid>
         </Hidden>
       </Grid>

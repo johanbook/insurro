@@ -3,9 +3,7 @@ module.exports = (message = "") => {
     const command = message.slice(2, message.length);
     try {
       message = eval(command);
-    } catch {
-      message = `Unable to evalute: ${command}`;
-    }
+    } catch {}
     return message;
   }
   return message;

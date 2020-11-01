@@ -5,6 +5,12 @@ const formatMessage = require("./formatMessage");
 
 const sockets = {};
 
+const getUsers = () => {
+  return Object.values(sockets)
+    .map((socket) => socket.username)
+    .filter((el) => Boolean(el));
+};
+
 module.exports = (io) => {
   io.on("connection", (socket) => {
     const id = socket.id;
@@ -13,6 +19,7 @@ module.exports = (io) => {
     socket.on(EVENTS.IDENTIFY, ({ username }) => {
       sockets[id].username = username;
       socket.broadcast.emit(EVENTS.USER_CONNECT, { username });
+      socket.emit(EVENTS.LIST_ACTIVE_USERS, { users: getUsers() });
     });
 
     socket.on(EVENTS.MESSAGE, ({ message }) => {
