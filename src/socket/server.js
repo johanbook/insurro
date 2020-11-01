@@ -1,6 +1,7 @@
 const moment = require("moment");
 const crypto = require("../utils/crypto");
 const EVENTS = require("./events");
+const formatMessage = require("./formatMessage");
 
 const sockets = {};
 
@@ -23,7 +24,7 @@ module.exports = (io) => {
       io.sockets.emit(EVENTS.MESSAGE, {
         user: username,
         hash,
-        message,
+        message: formatMessage(message),
         sessionId: id,
         timestamp,
       });
