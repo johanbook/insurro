@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { userSelectors } from "./ducks/user";
 
 import App from "./App";
-import Nav from "./Nav";
+import Nav from "./components/Nav";
 import Home from "./components/Home";
 
 export default function () {
