@@ -12,7 +12,6 @@ module.exports = (io) => {
     socket.on(EVENTS.IDENTIFY, ({ username }) => {
       sockets[id].username = username;
       socket.broadcast.emit(EVENTS.USER_CONNECT, { username });
-      console.log(username, "registered");
     });
 
     socket.on(EVENTS.MESSAGE, ({ message }) => {

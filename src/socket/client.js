@@ -11,10 +11,9 @@ export default class Connection {
     this.username = username;
 
     Object.values(EVENTS).forEach((EVENT) =>
-      this.socket.on(EVENT, (payload) => {
-        console.log("Recieved", EVENT, { payload });
-        store.dispatch({ type: EVENT, payload });
-      })
+      this.socket.on(EVENT, (payload) =>
+        store.dispatch({ type: EVENT, payload })
+      )
     );
 
     this.socket.emit(EVENTS.IDENTIFY, { username });
