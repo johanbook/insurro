@@ -14,6 +14,9 @@
     "extends": "react-app"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@fortawesome/react-fontawesome": "^0.1.12",
     "express": "^4.17.1",
     "moment": "^2.29.1",
     "socket.io": "^2.3.0"
