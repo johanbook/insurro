@@ -1,3 +1,3 @@
 export default {
-  SET_HANDLE: "user/SET_HANDLE",
+  SET_USERNAME: "user/SET_USERNAME",
 };

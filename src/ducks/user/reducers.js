@@ -1,13 +1,13 @@
 import types from "./types";
 
 const initialState = {
-  handle: null,
+  username: null,
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case types.SET_HANDLE:
-      return { ...state, handle: action.payload.handle };
+    case types.SET_USERNAME:
+      return { ...state, username: action.payload.username };
     default:
       return state;
   }

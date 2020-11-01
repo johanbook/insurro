@@ -1,1 +1,1 @@
-export const handle = state => state.user.handle;
+export const username = (state) => state.user.username;

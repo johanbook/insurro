@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
-    "@johanbook/react-canvas": "0.0.2",
+    "@johanbook/react-canvas": "0.0.3",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@storybook/addon-actions": "^6.0.26",

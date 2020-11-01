@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Canvas from "@johanbook/react-canvas";
+
+import { userOperations, userSelectors } from "../../ducks/user";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -32,22 +35,35 @@ export function createItems(number) {
 }
 
 const handleUpdateItem = (item, t) => {
-  const time = 25 * t;
-  const diff = 10 * (item.x + item.y);
-  item.size = 1 + 2 * Math.sin(time + diff);
+  const time = 4 * t;
+  const diff1 = 10 * (item.x + item.y);
+  const diff2 = 10 * (item.x - item.y);
+  const sum1 = time + diff1;
+  const sum2 = time + diff2;
+  const size =
+    4 * Math.sin(sum1) + 4 * Math.cos(2 * sum2) + 4 * Math.sin(4 * sum2);
+  item.size = Math.max(0, size);
 };
 
-const items = createItems(20);
+const items = createItems(10);
 
 function CanvasContainer({ children }) {
+  const theme = useTheme();
   return (
-    <Canvas div items={items} onUpdateItem={handleUpdateItem}>
+    <Canvas
+      items={items}
+      onUpdateItem={handleUpdateItem}
+      renderOptions={{
+        defaultColor: theme.palette.primary.main,
+        fps: 10,
+      }}
+    >
       {children}
     </Canvas>
   );
 }
 
-export default function Home({ onLaunch, username }) {
+export function Home({ onLaunch, username }) {
   const classes = useStyles();
   const [value, setValue] = useState("");
   return (
@@ -91,4 +107,9 @@ export default function Home({ onLaunch, username }) {
       </Container>
     </CanvasContainer>
   );
+}
+
+export default function HomeContainer() {
+  const username = useSelector(userSelectors.username);
+  return <Home username={username} />;
 }

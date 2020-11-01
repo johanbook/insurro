@@ -94,6 +94,7 @@ export default function PersistentDrawerLeft({ children }) {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
+        color="transparent"
         position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
@@ -111,7 +112,7 @@ export default function PersistentDrawerLeft({ children }) {
               <MenuIcon />
             </IconButton>
           )}
-          <Typography variant="h6" noWrap>
+          <Typography color="primary" variant="h6" noWrap>
             Insurro
           </Typography>
         </Toolbar>

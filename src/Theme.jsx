@@ -1,16 +1,17 @@
 import React from "react";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import purple from "@material-ui/core/colors/purple";
-import green from "@material-ui/core/colors/green";
+import purple from "@material-ui/core/colors/deepPurple";
+import blue from "@material-ui/core/colors/lightBlue";
 
 const theme = createMuiTheme({
   palette: {
-    // type: "dark",
+    type: "dark",
     primary: {
-      main: "#02C3BD",
+      background: purple[600],
+      main: purple[300],
     },
     secondary: {
-      main: purple[500],
+      main: blue[100],
     },
   },
 });
