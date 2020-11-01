@@ -7,7 +7,7 @@ const messages = [];
 for (let i = 0; i < 100; i++)
   messages.push({
     hash: i,
-    user: "Handle",
+    user: "Handle" + i,
     message: "Lorem ipsuim",
     timestamp: moment().format(),
   });

@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-import Dialog from "./components/Dialog";
 import Messages from "./components/Messages";
 import MessageField from "./components/MessageField";
 import Users from "./components/Users";
 
 import { messageOperations, messageSelectors } from "./ducks/messages";
-import { userOperations, userSelectors } from "./ducks/user";
+import { userSelectors } from "./ducks/user";
 
 function App({ username }) {
   const messages = useSelector(messageSelectors.messages);

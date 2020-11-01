@@ -2,13 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import moment from "moment";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
 import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
+
+import Avatar from "../Avatar";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -53,7 +54,7 @@ function Message({
     <React.Fragment>
       <ListItem button divider onClick={usernameClick} selected={selected}>
         <ListItemIcon>
-          <Avatar>{user[0]}</Avatar>
+          <Avatar string={user} />
         </ListItemIcon>
         <ListItemText primary={user} secondary={secondary} />
       </ListItem>
